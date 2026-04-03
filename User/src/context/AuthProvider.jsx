@@ -3,7 +3,8 @@ import { useReducer } from "react";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext();
-const baseUrl = "http://localhost:9000/api/user";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:9000";
+const baseUrl = `${API_BASE_URL}/api/user`;
 const initialState = {
   userInfo: null,
 };

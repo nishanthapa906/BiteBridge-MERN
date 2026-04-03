@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const baseUrl = "http://localhost:9000/api/product";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:9000";
+const baseUrl = `${API_BASE_URL}/api/product`;
 function Menu() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -45,7 +46,7 @@ function Menu() {
                 <div>
                   <img
                     className="w-full   rounded-t-2xl h-64"
-                    src={`http://localhost:9000/image/${item?.image}`}
+                    src={`${API_BASE_URL}/image/${item?.image}`}
                     alt=""
                   />
                 </div>

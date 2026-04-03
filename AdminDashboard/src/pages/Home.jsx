@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-const baseUrl = "http://localhost:9000/api/product";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:9000";
+const baseUrl = `${API_BASE_URL}/api/product`;
 function Home() {
   const [products, setProducts] = useState([]);
 
@@ -69,7 +70,7 @@ function Home() {
                         <td className="p-5       text-black text-md   w-44">
                           <img
                             width={90}
-                            src={`http://localhost:9000/image/${item?.image}`}
+                            src={`${API_BASE_URL}/image/${item?.image}`}
                             alt="Product_image"
                           />
                         </td>
