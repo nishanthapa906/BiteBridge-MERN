@@ -3,8 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 const baseUrl = "http://localhost:9000/api/product";
 function Home() {
   const [products, setProducts] = useState([]);
-  
- const navigate= useNavigate()
+
+  const navigate = useNavigate()
 
   const getProduct = async () => {
     let res = await fetch(`${baseUrl}/getProduct`);
@@ -22,14 +22,14 @@ function Home() {
     getProduct();
   };
 
-  
+
   useEffect(() => {
     getProduct();
   }, []);
   return (
     <main>
-      <section  className="  p-10  text-right" >
-        <NavLink   className=' bg-amber-400 p-5 mt-4   text-3xl font-bold underline'  to='/createProduct'  >Create Product</NavLink>
+      <section className="  p-10  text-right" >
+        <NavLink className=' bg-amber-400 p-5 mt-4   text-3xl font-bold underline' to='/createProduct'  >Create Product</NavLink>
       </section>
 
       <section className="  font-serif text-2xl  product_List  p-10  text-center ">
@@ -88,15 +88,15 @@ function Home() {
                           >
                             Delete
                           </button>
-                          <button 
+                          <button
 
-                          onClick={()=>{
-                            navigate('/editProduct',{state:item})
+                            onClick={() => {
+                              navigate('/editProduct', { state: item })
 
-                          }}
-                          
-                          
-                          className="bg-orange-500 p-2 text-white rounded-xl  w-20  ">
+                            }}
+
+
+                            className="bg-orange-500 p-2 text-white rounded-xl  w-20  ">
                             Edit
                           </button>
                         </td>

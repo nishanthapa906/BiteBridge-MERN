@@ -4,7 +4,7 @@ const baseUrl = "http://localhost:9000/api/product";
 
 function EditProduct() {
   const { state } = useLocation();
-//   console.log(state);
+  //   console.log(state);
   const [title, setTitle] = useState(state.title);
   const [price, setPrice] = useState(state.price);
   const [image, setImage] = useState(null);

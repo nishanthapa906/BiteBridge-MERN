@@ -23,7 +23,7 @@ function CreateProduct() {
   };
   return (
     <div>
-      <section  className="flex justify-center items-center" >
+      <section className="flex justify-center items-center" >
         <form
           onSubmit={(e) => {
             createProduct(e);
