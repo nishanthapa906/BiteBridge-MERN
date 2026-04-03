@@ -2,13 +2,6 @@ import Product from "../models/productModel.js";
 export const createProduct = async (req, res) => {
   const image = req.file.filename;
   const { title, price } = req.body;
-  //   console.log(title, price, image);
-  // todo
-  //1.collect data
-  //2.check the data is empty or not
-  //3.if empty then return suitable message
-  //4. then save the data to the database
-  //5. return suitable message and response
   if (!title || !price || !image) {
     return res.status(400).json({
       status: 400,
@@ -34,7 +27,6 @@ export const createProduct = async (req, res) => {
         message: "Error while saving data!",
       });
     }
-
     res.status(201).json({
       status: 201,
       success: true,
@@ -50,12 +42,7 @@ export const createProduct = async (req, res) => {
     });
   }
 };
-
 export const getProduct = async (req, res) => {
-  // todo
-  // query the database
-  // check the data , empty or not
-  // if data is present then return the data with suitable message
   try {
     let productRes = await Product.find();
     if (!productRes) {
@@ -83,10 +70,6 @@ export const getProduct = async (req, res) => {
 };
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
-  // todo
-  // get id of that product
-  // then find and delete that product
-  // return suitable message
   if (!id) {
     return res
       .status(400)
@@ -121,7 +104,7 @@ export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { title, price } = req.body;
 
-  if (!id || !title ||!price) {
+  if (!id || !title || !price) {
     return res.status(400).json({
       status: 400,
       success: false,

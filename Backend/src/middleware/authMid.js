@@ -1,12 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 export const authMid = async (req, res, next) => {
-  // get cookies
-  // check token
-  // verify the token
-  // if exist user then suitable message
   const token = req.cookies.jwt_token;
-//   console.log(token);
   if (!token) {
     return res.status(400).json({
       status: 400,
@@ -29,6 +24,8 @@ export const authMid = async (req, res, next) => {
       });
     }
     req.users = resUser;
+      // console.log(req.users )
+
     next();
   } catch (error) {
     res.status(500).json({

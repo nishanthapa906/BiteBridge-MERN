@@ -1,20 +1,16 @@
-import React from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import AppRouter from '../components/AppRouter'
-
+import Header from "./components/Header";
+import AppRoutes from "./components/Approutes";
+import Footer from "./components/Footer";
 function App() {
   return (
-    <div>
-      <Header/>
-      <AppRouter/>
-      <div>
-         <Footer/>
-    </div>
-    </div>
-
-    
-  )
+    <main>
+      <Header />
+      <div className="min-h-175">
+        <AppRoutes />
+      </div>
+      <Footer />
+    </main>
+  );
 }
 
-export default App
+export default App;

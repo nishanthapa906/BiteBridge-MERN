@@ -1,10 +1,10 @@
 import multer from 'multer'
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/Images')
+    cb(null, '../public/Images')
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix =`${Date.now()}-${file.originalname}`
+    const uniqueSuffix =` ${Date.now()}-${file.originalname}`
     cb(null, uniqueSuffix)
   }
 })
