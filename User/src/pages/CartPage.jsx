@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { CartContext } from "../context/CartProvider";
 import {useNavigate}  from 'react-router-dom'
 function CartPage() {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:9000";
   const navigate=useNavigate()
   const { state,dispatch } = useContext(CartContext);
   const totalQuantity = state.cartItems?.reduce((acc, item) => {
@@ -12,7 +13,7 @@ function CartPage() {
   }, 0);
   const createOrder = async () => {
     try {
-      let orderRes = await fetch("http://localhost:9000/api/order/create", {
+      let orderRes = await fetch(`${API_BASE_URL}/api/order/create`, {
         method: "POST",
         headers: {
           "Content-type": "Application/json",
@@ -52,7 +53,7 @@ function CartPage() {
                   <div className="flex items-center gap-9 ">
                     <img
                       className="w-40 h-40"
-                      src={`http://localhost:9000/image/${item?.image}`}
+                      src={`${API_BASE_URL}/image/${item?.image}`}
                       alt=""
                     />
                     <h1>{item.title}</h1>

@@ -1,5 +1,6 @@
 import { useState } from "react";
-const baseUrl = "http://localhost:9000/api/product";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:9000";
+const baseUrl = `${API_BASE_URL}/api/product`;
 
 function CreateProduct() {
   const [title, setTitle] = useState("");

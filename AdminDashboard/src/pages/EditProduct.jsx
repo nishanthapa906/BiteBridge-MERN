@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-const baseUrl = "http://localhost:9000/api/product";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:9000";
+const baseUrl = `${API_BASE_URL}/api/product`;
 
 function EditProduct() {
   const { state } = useLocation();
@@ -67,7 +68,7 @@ function EditProduct() {
         <div>
           <img
             className="w-20"
-            src={`http://localhost:9000/image/${state?.image}`}
+            src={`${API_BASE_URL}/image/${state?.image}`}
             alt=""
           />
         </div>
