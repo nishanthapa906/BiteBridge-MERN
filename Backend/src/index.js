@@ -15,8 +15,13 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 9000;
 
+// todo
+// 1. Set trust proxy for Render deployment to handle secure cookies
+app.set('trust proxy', 1);
+
 // Connect Database
 connectDb();
+
 
 // Middlewares
 app.use(express.json());

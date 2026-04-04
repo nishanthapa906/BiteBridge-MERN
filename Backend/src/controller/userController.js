@@ -76,7 +76,16 @@ export const register = async (req, res) => {
           expiresIn: "5d",
         },
       );
-      res.cookie("jwt_token", token).status(200).json({
+      
+      // todo
+      // 1. send cookie to client
+      // 2. secure: true, sameSite: 'none' is important for Render/Deployment
+      res.cookie("jwt_token", token, {
+        httpOnly: true,
+        secure: true, // required for sameSite: 'none'
+        sameSite: 'none',
+        maxAge: 5 * 24 * 60 * 60 * 1000 // 5 days
+      }).status(200).json({
         status: 200,
         success: true,
         message: "User Login Successfully!",
@@ -95,7 +104,13 @@ export const register = async (req, res) => {
 
 export const logout = (req, res) => {
   try {
-    res.clearCookie("jwt_token").status(200).json({
+    // todo
+    // 1. clear cookie from client
+    res.clearCookie("jwt_token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none'
+    }).status(200).json({
       status: 200,
       success: true,
       message: "User Logout Successfully !",
@@ -109,6 +124,7 @@ export const logout = (req, res) => {
     });
   }
 };
+
 export const getMe = (req, res) => {
   // console.log(req.users);
   res.status(200).json({
