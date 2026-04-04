@@ -11,28 +11,41 @@ function Register() {
   const [image, setImage] = useState("");
   const registerUser = async (e) => {
     e.preventDefault();
-    // console.log(name, image, email, password);
-    // api call
+    // todo
+    // 1. Create formData and append user details (name, email, password, image)
+    // 2. Post register details to backend
+    // 3. Return message and redirect to login if success
+    
     const formData = new FormData();
     formData.append("name", name);
     formData.append("password", password);
     formData.append("email", email);
     formData.append("image", image);
+
     try {
       let res = await fetch(`${baseUrl}/register`, {
         method: "POST",
         body: formData,
       });
-      res = await res.json();
-      // console.log(res);
-      alert(res.message);
-      if (res.success) {
-        return navigate("/login");
+
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        res = await res.json();
+        alert(res.message);
+        if (res.success || res.status === 201) {
+          navigate("/login");
+        }
+      } else {
+        const text = await res.text();
+        console.error("Server error:", text);
+        alert("Something went wrong with server!");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Fetch error:", error);
+      alert("Failed to connect to server!");
     }
   };
+
 
   return (
     <div className="flex justify-center ">
@@ -83,11 +96,12 @@ function Register() {
               }}
               className="border   outline-none rounded-2xl p-3 w-full"
               id="password"
-              type="tel"
+              type="password"
               placeholder="Enter Password...."
             />
           </label>
         </div>
+
         <div>
           <label htmlFor="userImage">
             Image:

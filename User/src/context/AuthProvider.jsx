@@ -31,26 +31,46 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(authReducer, initialState);
   const loginUser = async (email, password) => {
-    let res;
+    // todo
+    // 1. Post email and password to backend login api
+    // 2. Check if login is success
+    // 3. Dispatch to state and redirect to home if success
+    // 4. Alert server message
+    
     try {
-      res = await fetch(`${baseUrl}/login`, {
+      let res = await fetch(`${baseUrl}/login`, {
         method: "POST",
         headers: {
-          "content-type": "Application/json",
+          "Content-Type": "application/json",
         },
         credentials: "include",
         body: JSON.stringify({ email, password }),
       });
-      res = await res.json();
-      dispatch({ type: "login", payload: res });
-      navigate("/");
-      // alert(res.message);
+
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        res = await res.json();
+        alert(res.message);
+        if (res.success || res.status === 200) {
+          dispatch({ type: "login", payload: res });
+          navigate("/");
+        }
+      } else {
+        const text = await res.text();
+        console.error("Server error:", text);
+        alert("Something went wrong on server!");
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Fetch error:", error);
+      alert("Failed to connect to server!");
     }
   };
 
+
   const getMe = async () => {
+    // todo
+    // 1. fetch user info from getMe api
+    // 2. Dispatch that info to reducer to update state
     try {
       let res = await fetch(`${baseUrl}/getMe`, {
         method: "GET",
@@ -63,7 +83,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
   const logout = async () => {
+    // todo
+    // 1. Clear cookie from backend via logout api
+    // 2. Dispatch null to remove user from state
     try {
       let res = await fetch(`${baseUrl}/logout`, {
         method: "GET",
@@ -76,6 +100,7 @@ export const AuthProvider = ({ children }) => {
       console.log(error);
     }
   };
+
 
   useEffect(() => {
     getMe();

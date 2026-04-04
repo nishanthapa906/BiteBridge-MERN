@@ -7,8 +7,13 @@ function Login() {
   const {  loginUser } = useContext(AuthContext);
   const loginUsers = async (e) => {
     e.preventDefault();
+    // todo 
+    // 1. Get email and password from state
+    // 2. Call loginUser function from AuthContext
+    // 3. This function handles server post and dispatch to state
     await loginUser(email, password);
   };
+
   // console.log(state);
   return (
     <div className="flex justify-center ">
@@ -43,11 +48,12 @@ function Login() {
               }}
               className="border   outline-none rounded-2xl p-3 w-full"
               id="password"
-              type="tel"
+              type="password"
               placeholder="Enter Password...."
             />
           </label>
         </div>
+
         <button className="bg-green-500 text-white w-full p-4   font-bold ">
           Login
         </button>
