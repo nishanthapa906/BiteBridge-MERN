@@ -6,6 +6,12 @@ import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 const PORT = process.env.PORT || 9000;
 
@@ -26,7 +32,8 @@ app.use(
   }),
 );
 app.use(cookieParser());
-app.use("/image/", express.static("../public/Images"));
+app.use("/image/", express.static(path.join(__dirname, "../public/Images")));
+
 
 // Base Routes
 app.use("/api/product", productRouter);

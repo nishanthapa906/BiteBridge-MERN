@@ -16,14 +16,33 @@ function EditProduct() {
     formData.append("price", price);
     formData.append("image", image);
     // api call
-    let res = await fetch(`${baseUrl}/updateProduct/${state._id}`, {
-      method: "PUT",
-      body: formData,
-    });
-    res = await res.json();
-    console.log(res);
-    alert(res.message);
+    try {
+      let res = await fetch(`${baseUrl}/updateProduct/${state._id}`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        res = await res.json();
+        console.log(res);
+        if (res.status === 200 || res.success) {
+          alert(res.message);
+        } else {
+          alert(res.message || "Failed to edit product");
+        }
+      } else {
+        const text = await res.text();
+        console.error("Server Error Response:", text);
+        alert("Server returned an error. Please check console for details.");
+      }
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      alert("Failed to connect to server.");
+    }
   };
+
+
   return (
     <section>
       <form

@@ -1,15 +1,27 @@
 import Order from "../models/orderModel.js";
 export const createOrder = async (req, res) => {
-  const { totalItem, totalPrice, orderItems } = req.body;
-  const id = req.users._id;
+  // todo
+  // 1. Get order data from req.body and id from req.users._id
+  // 2. Check if all required fields are present
+  // 3. Create that order in database
+  // 4. Return suitable response with message and order details
 
-  if (!totalItem || !totalPrice || !orderItems || !id) {
-    return res.status(400).json({
-      status: 400,
-      success: false,
-      message: "All field Most be given .",
-    });
+  const { totalItem, totalPrice, orderItems } = req.body;
+  const id = req.users?._id;
+
+  if (!totalItem && totalItem !== 0) {
+    return res.status(400).json({ status: 400, success: false, message: "totalItem is required." });
   }
+  if (!totalPrice && totalPrice !== 0) {
+    return res.status(400).json({ status: 400, success: false, message: "totalPrice is required." });
+  }
+  if (!orderItems || !orderItems.length) {
+    return res.status(400).json({ status: 400, success: false, message: "orderItems must be a non-empty array." });
+  }
+  if (!id) {
+    return res.status(400).json({ status: 400, success: false, message: "User ID not found in session." });
+  }
+
   try {
     let orderRes = await Order.create({
       totalItem,
@@ -20,18 +32,20 @@ export const createOrder = async (req, res) => {
     res.status(201).json({
       status: 201,
       success: true,
-      message: "order is Created successfully!",
+      message: "Order created successfully!",
       orders: orderRes,
     });
   } catch (error) {
     res.status(500).json({
       status: 500,
-      success: true,
-      message: "Internal Error",
-      error: error,
+      success: false,
+      message: "Internal Server Error",
+      error: error.message || error,
     });
   }
 };
+
+
 
 export const getMyOrder = async (req, res) => {
   const id = req.users._id;

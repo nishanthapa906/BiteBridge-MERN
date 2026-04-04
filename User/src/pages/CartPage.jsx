@@ -12,11 +12,15 @@ function CartPage() {
     return acc + item.quantity * item.price;
   }, 0);
   const createOrder = async () => {
+    // todo
+    // 1. Post order detail to backend create order api
+    // 2. Clear cart if success and redirect to payment
+    // 3. Handle error case
     try {
       let orderRes = await fetch(`${API_BASE_URL}/api/order/create`, {
         method: "POST",
         headers: {
-          "Content-type": "Application/json",
+          "Content-Type": "application/json",
         },
         credentials: "include",
         body: JSON.stringify({
@@ -30,14 +34,26 @@ function CartPage() {
         orderRes = await orderRes.json();
         alert(orderRes.message);
         console.log(orderRes.orders);
-        navigate('/payment',{state:orderRes.orders})
-
-        dispatch({type:"clearCart"})
+        navigate('/payment', { state: orderRes.orders })
+        dispatch({ type: "clearCart" })
+      } else {
+        // If not ok, we still try parsing as json for error message
+        const contentType = orderRes.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+           const errorData = await orderRes.json();
+           alert(errorData.message || "Failed to create order");
+        } else {
+           alert("Server error occurred!");
+        }
       }
     } catch (error) {
-      console.log(error);
+      console.error("Fetch Error:", error);
+      alert("Something went wrong. Please check console for details.");
     }
   };
+
+
+
 
   return (
     <div>

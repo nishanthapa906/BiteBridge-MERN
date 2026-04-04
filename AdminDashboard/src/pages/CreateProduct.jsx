@@ -14,14 +14,36 @@ function CreateProduct() {
     formData.append("price", price);
     formData.append("image", image);
     // Api call
-    let res = await fetch(`${baseUrl}/createProduct`, {
-      method: "POST",
-      body: formData,
-    });
-    res = await res.json();
-    console.log(res);
-    alert(res.message);
+    try {
+      let res = await fetch(`${baseUrl}/createProduct`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        res = await res.json();
+        console.log(res);
+        if (res.status === 201 || res.success) {
+          alert(res.message);
+          setTitle("");
+          setPrice(0);
+          setImage(null);
+        } else {
+          alert(res.message || "Failed to create product");
+        }
+      } else {
+        const text = await res.text();
+        console.error("Server Error Response:", text);
+        alert("Server returned an error. Please check console for details.");
+      }
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      alert("Failed to connect to server.");
+    }
   };
+
+
   return (
     <div>
       <section className="flex justify-center items-center" >
